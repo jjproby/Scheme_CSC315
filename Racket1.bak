@@ -1,0 +1,10 @@
+#lang racket
+
+(define (my-reverse some-list)
+     (define (helper a b)
+          (if (null? a)
+               b
+               (helper (cdr a) (cons (car a) b))))
+     (helper some-list '()))
+
+(define (make-coordinate) 
