@@ -1,0 +1,33 @@
+#lang racket
+
+(define (give-me-1 some-list)
+  (car some-list))
+
+(define (give-me-2 some-list)
+  (car (cdr some-list)))
+
+(define my-length '(a b c d e f g h))
+
+(define (good-length some-list)
+  (define (count-stuff some-list count)
+    (if (null? some-list)
+        count
+        (count-stuff (cdr some-list) (+ count 1))))
+  (count-stuff some-list 0))
+
+(define (my-reverse some-list)
+     (define (helper some-list new-list)
+          (if (null? some-list)
+               new-list
+               (helper (cdr some-list) (cons (car some-list) new-list))))
+     (helper some-list '()))
+
+(define (my-append some-list1 some-list2)
+  (define (new-thing some-list1 some-list2 new-list)
+    (if (null? some-list1)
+       (if (null? some-list2)
+           (my-reverse new-list)
+           (new-thing some-list1 (cdr some-list2) (cons (car some-list2) new-list)))
+       (new-thing (cdr some-list1) some-list2 (cons (car some-list1) new-list))))
+  (new-thing some-list1 some-list2 '()))
+
