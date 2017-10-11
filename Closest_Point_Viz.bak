@@ -12,9 +12,6 @@
 (define (make-coordinate)
   (/ (truncate (* 1000 (random))) 1000 ))
 
-(define (get-x point) (car point))
-(define (get-y point) (car (cdr point)))
-
 ;; Define a function here that generates a list
 ;; of two random floating point numbers, each
 ;; of whose values lies between 0 and 1.
@@ -50,7 +47,7 @@
 (define (get-P1 points)
   (car (cdr points)))
 
-(define x (make-list-of-points 10000))
+(define x (make-list-of-points 10))
 (define P0 (get-P0 x))
 (define P1 (get-P1 x))
 
@@ -75,14 +72,14 @@
   (sqrt (+ (a-value (x-value x2 x1)) (b-value (y-value y2 y1)))))
 
 
-(define (closer-to point)
+(define (closer-to points)
   (cond
     ((<
-      (eucDistance (get-x P0) (get-y P0) (get-x point) (get-y point))
-       (eucDistance (get-x P1) (get-y P1) (get-x point) (get-y point))) -1 )
+      (eucDistance (get-x P0) (get-y P0) (get-x (car points)) (get-y (car points)))
+       (eucDistance (get-x P1) (get-y P1) (get-x (car points)) (get-y (car points)))) -1)
     ((<
-      (eucDistance (get-x P1) (get-y P1) (get-x point) (get-y point))
-       (eucDistance (get-x P0) (get-y P0) (get-x point) (get-y point))) 1)
+      (eucDistance (get-x P1) (get-y P1) (get-x (car points)) (get-y (car points)))
+       (eucDistance (get-x P0) (get-y P0) (get-x (car points)) (get-y (car points)))) 1)
     (0)))
       
         
@@ -91,32 +88,18 @@
 ;; that are closer to p0 than they are to p1.
 ;; Call this sublist points-0.
 
-(define (close-to-P0 points new-list)
-  (if (null? points)
-      new-list
-      (if (= (closer-to (car points)) -1)
-          (close-to-P0 (cdr points) (cons (car points) new-list))
-          (close-to-P0 (cdr points) new-list))))
-
 ;; Write code here that creates a sublist from the list
 ;; of points. This sublist will contains all of the points
 ;; that are closer to p1 than they are to p0.
 ;; Call this sublist points-1.
-
-(define (close-to-P1 points new-list)
-  (if (null? points)
-      new-list
-      (if (= (closer-to (car points)) 1)
-          (close-to-P1 (cdr points) (cons (car points) new-list))
-          (close-to-P1 (cdr points) new-list))))
 
 ;; Here's are two examples of lists of points.
 ;; When you have written your own code to generate
 ;; lists named points-0 and points-1, hide these
 ;; next two lines from the interpreter by placing
 ;; them in comments.
-(define points-0 (close-to-P0 x '()))
-(define points-1 (close-to-P1 x '()))
+(define points-0 '((0.75 0.75) (0.25 0.75) (0.25 0.25) (0.75 0.25)))
+(define points-1 '((0.5 0.75) (0.25 0.5) (0.5 0.25) (0.75 0.5)))
 
 ;; You may use different colors to distinguish
 ;; the elements of points-0 from the elements of
@@ -129,13 +112,13 @@
 
 ;; You may change the size of the dots
 ;; that represent the points.
-(define dot-radius 4)
+(define dot-radius 8)
 (define dot-diameter (* 2 dot-radius))
 
 ;;;; DO NOT CHANGE ANY OF THE CODE BELOW HERE ;;;;
 
-;;(define (get-x point) (car point))
-;;(define (get-y point) (car (cdr point)))
+(define (get-x point) (car point))
+(define (get-y point) (car (cdr point)))
 
 (define (scale point factor)
   (list
